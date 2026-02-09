@@ -43,9 +43,4 @@ public class ProductRepository {
         }
         return null;
     }
-
-    public void delete(String productId) {
-        Product productToDelete = findById(productId);
-        productData.remove(productToDelete);
-    }
 }
