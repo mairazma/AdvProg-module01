@@ -2,12 +2,34 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADV Shop</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8f9fa; font-family: 'Segoe UI', sans-serif; }
+        .navbar { background: linear-gradient(135deg, #4e54c8, #8f94fb); }
+        .hero { padding: 80px 0; text-align: center; background: white; border-radius: 0 0 50px 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    </style>
 </head>
-
 <body>
-    <h3>Welcome</h3>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">ADV Shop</a>
+        <div class="navbar-nav">
+            <a class="nav-link" th:href="@{/product/list}">Product List</a>
+        </div>
+    </div>
+</nav>
+
+<div class="hero">
+    <div class="container">
+        <h3 class="display-4 fw-bold">Welcome</h3>
+        <p class="lead text-muted">Solusi manajemen produk toko Anda dengan lebih cepat dan rapi.</p>
+        <hr class="my-4" style="max-width: 100px; margin: auto; border-top: 3px solid #4e54c8;">
+        <a th:href="@{/product/list}" class="btn btn-primary btn-lg px-5 shadow">Lihat Produk</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
