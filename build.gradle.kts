@@ -45,6 +45,7 @@ dependencies {
 }
 
 tasks.register<Test>("unitTest") {
+    useJUnitPlatform()
     description = "Runs unit tests."
     group = "verification"
 
@@ -54,6 +55,7 @@ tasks.register<Test>("unitTest") {
 }
 
 tasks.register<Test>("functionalTest") {
+    useJUnitPlatform()
     description = "Runs functional tests."
     group = "verification"
 
