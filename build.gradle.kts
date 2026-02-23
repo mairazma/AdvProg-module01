@@ -66,6 +66,7 @@ tasks.register<Test>("functionalTest") {
 }
 
 tasks.test {
+    useJUnitPlatform()
     filter {
         excludeTestsMatching("*FunctionalTest")
     }
