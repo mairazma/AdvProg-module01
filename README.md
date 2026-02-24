@@ -28,4 +28,17 @@ The mistake I found in my code is that there are almost no comments. Even if the
 
 ## Reflection
 1. List the code quality issue(s) that you fixed during the exercise and explain your strategy on fixing them. 
-2. Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current implementation has met the definition of Continuous Integration and Continuous Deployment? Explain the reasons (minimum 3 sentences)! 
+    - Repeated constant data  
+    In `ProductController.java`, there were 3 functions that returned the exact same endpoint. Previously, it was defined directly as a string (`"redirect:/product/list"`). I decided to store it in a `private final` variable and replace all occurrences with that variable. This way, the code becomes more readable and avoids repeated constant values.
+    
+    - Button color not contrasting enough  
+    I wasn’t aware of the minimum contrast rule between a button and its background. SonarCloud flagged this issue, so I fixed it by changing the button color to a darker one to improve accessibility.
+    
+    - There was an empty method without a comment  
+    In `EshopApplicationTest.java`, there is an empty method called `contextLoads()`. This method simply triggers the application context initialization, so there is no need to put anything inside it. However, there was no explanation about why this method exists. To make it clearer for other developers, I added a comment explaining its purpose.
+
+
+2. Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current implementation has met the definition of Continuous Integration and Continuous Deployment? Explain the reasons (minimum 3 sentences)!  
+    I do think that my CI/CD workflow implementation has met the definition of Continuous Integration and Continuous Deployment. The ci.yml file automatically runs tests for every push and pull request. This helps ensure that our code works properly and remains functional with every update.  
+
+    For the CD part, it is implemented through the service I use (Railway). This service uses a pull-based deployment mechanism. That means for every code update (push or merge to the main branch), the service will automatically attempt to build the project and deploy it if there are no issues. This way, any change to the code is automatically deployed right away.
