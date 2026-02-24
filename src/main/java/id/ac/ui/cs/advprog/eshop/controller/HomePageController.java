@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("")
 public class HomePageController {
+    private String welcomePrompt = "Welcome to Eshop!";
 
     @GetMapping("")
     public String homePage() {
