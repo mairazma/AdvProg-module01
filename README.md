@@ -42,3 +42,32 @@ The mistake I found in my code is that there are almost no comments. Even if the
     I do think that my CI/CD workflow implementation has met the definition of Continuous Integration and Continuous Deployment. The ci.yml file automatically runs tests for every push and pull request. This helps ensure that our code works properly and remains functional with every update.  
 
     For the CD part, it is implemented through the service I use (Railway). This service uses a pull-based deployment mechanism. That means for every code update (push or merge to the main branch), the service will automatically attempt to build the project and deploy it if there are no issues. This way, any change to the code is automatically deployed right away.
+
+---
+
+# Module 3
+
+## Reflection
+1. Explain what principles you apply to your project! 
+    - Single Responsiblity Princple (SRP)  
+    The project already applies this principle through clear separation of concerns. The directories are divided into `model`, `controller`, `repository`, and `service`. Each layer has a single responsibility. Previously, `CarController` and `ProductController` were merged into a single file. I separated them into two different controllers so that each class handles only one specific entity. This ensures that each file has only one reason to change.
+
+    - Open-Closed Principle (OCP)  
+    The project is designed to be open for extension but closed for modification. Although there is currently no complex conditional logic (such as large if-else statements), the structure allows new features to be added without modifying existing code. 
+
+    - Liskov Substitution Principle (LSP)  
+    This principle is applied in the separation between `CarService` and `ProductService`. Since Car and Product may have different behaviors in the future, each service interface is implemented independently.
+
+    - Interface Segregation Principle (ISP)  
+    The separation between Repository and Service layers reflects this principle. Each interface focuses only on the methods relevant to its responsibility. This prevents interfaces from becoming too large and avoids forcing classes to implement methods they do not need.
+
+    - Dependency Inversion Principle (DIP)  
+    DIP is applied in the controller layer. Previously, `CarController` depended directly on the concrete class `CarServiceImpl`. This created tight coupling. It has been refactored so that the controller now depends on the abstraction `CarService` instead of its implementation.
+
+
+2. Explain the advantages of applying SOLID principles to your project with examples.   
+    Applying SOLID principles improves maintainability, flexibility, and scalability of the project. By separating responsibilities across `model`, `controller`, `service`, and `repository` layers, changes in one part of the system do not affect others. For example, modifying database logic only impacts the repository layer without changing controllers. Additionally, depending on abstractions instead of concrete implementations makes the system easier to extend and test.
+
+
+3. Explain the disadvantages of not applying SOLID principles to your project with examples.   
+    Without applying SOLID principles, the project would become tightly coupled and harder to maintain. For instance, if controllers directly depended on concrete service implementations or if multiple responsibilities were placed in a single class, small changes could require modifying many files and increase the risk of errors. This would reduce flexibility and make future development more difficult.
