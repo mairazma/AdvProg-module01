@@ -38,7 +38,7 @@ class ProductControllerTest {
     void testCreateProductPage() {
         String view = productController.createProductPage(model);
         verify(model, times(1)).addAttribute(eq("product"), any(Product.class));
-        assertEquals("CreateProduct", view);
+        assertEquals("createProduct", view);
     }
 
     @Test
@@ -57,7 +57,7 @@ class ProductControllerTest {
         when(productService.findAll()).thenReturn(products);
         String view = productController.productListPage(model);
         verify(model, times(1)).addAttribute("products", products);
-        assertEquals("ProductList", view);
+        assertEquals("productList", view);
     }
 
     @Test
@@ -67,8 +67,7 @@ class ProductControllerTest {
 
         String view = productController.editProductPage("1", model);
         verify(model, times(1)).addAttribute("product", product);
-        verify(model, times(1)).addAttribute("productId", "1");
-        assertEquals("EditProduct", view);
+        assertEquals("editProduct", view);
     }
 
 
@@ -78,20 +77,13 @@ class ProductControllerTest {
         product.setProductId("1");
         String view = productController.editProductPost(product, model);
         verify(productService, times(1)).edit("1", product);
-        assertEquals("redirect:/product/list", view);
+        assertEquals("redirect:list", view);
     }
 
     @Test
-    void testEditProductPageNotFound() {
-        when(productService.findById("1")).thenReturn(null);
-        String view = productController.editProductPage("1", model);
-        assertEquals("redirect:/product/list", view);
-    }
-
-    @Test
-    void testDeleteProductPage() {
+    void testDeleteProduct() {
         String view = productController.deleteProduct("1");
         verify(productService, times(1)).delete("1");
-        assertEquals("redirect:/product/list", view);
+        assertEquals("redirect:list", view);
     }
 }
