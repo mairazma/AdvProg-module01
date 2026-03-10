@@ -91,4 +91,35 @@ class PaymentServiceImplTest {
 
         assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
     }
+
+    @Test
+    void testSetStatusSuccess() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("Bank Central Asia", "BCA");
+        paymentData.put("Bank Nasional Indonesia", "BNI");
+        Payment payment = new Payment("eb558e9f-1c39-469e-8860-71af6af63bd6", "BANK_TRANSFER", PaymentStatus.WAITING_PAYMENT.getValue(), paymentData);
+
+        doReturn(payment).when(paymentRepository).save(any(Payment.class));
+
+        Payment result = paymentService.setStatus(payment, PaymentStatus.SUCCESS.getValue());
+
+        assertEquals(PaymentStatus.SUCCESS.getValue(), result.getStatus());
+        verify(orderRepository, times(1)).save(any(Order.class));
+    }
+
+    @Test
+    void testSetStatusRejected() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("Bank Central Asia", "BCA");
+        paymentData.put("Bank Nasional Indonesia", "BNI");
+        Payment payment = new Payment("eb558e9f-1c39-469e-8860-71af6af63bd6", "BANK_TRANSFER", "WAITING_PAYMENT", paymentData);
+
+        doReturn(payment).when(paymentRepository).save(any(Payment.class));
+
+        Payment result = paymentService.setStatus(payment, PaymentStatus.REJECTED.getValue());
+
+        assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
+        verify(orderRepository, times(1)).save(any(Order.class));
+    }
+
 }
