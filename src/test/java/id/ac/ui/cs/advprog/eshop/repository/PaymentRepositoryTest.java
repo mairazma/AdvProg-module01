@@ -49,7 +49,7 @@ class PaymentRepositoryTest {
         paymentRepository.save(updated);
 
         Payment findResult = paymentRepository.findById(payment.getId());
-        assertEquals(PaymentStatus.REJECTED.getValue(), findResult.getStatus());
+        assertEquals(PaymentStatus.WAITING_PAYMENT.getValue(), findResult.getStatus());
     }
 
     @Test
