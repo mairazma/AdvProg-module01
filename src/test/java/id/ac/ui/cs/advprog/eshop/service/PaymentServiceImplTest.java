@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
 import id.ac.ui.cs.advprog.eshop.model.Product;
@@ -46,50 +47,48 @@ class PaymentServiceImplTest {
     @Test
     void testAddPaymentBankTransferSuccess() {
         Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("bankName", "BCA");
-        paymentData.put("referenceCode", "REF001");
+        paymentData.put("Bank Central Asia", "BCA");
+        paymentData.put("Bank Nasional Indonesia", "BNI");
 
         Payment result = paymentService.addPayment(order, "BANK_TRANSFER", paymentData);
 
         assertEquals("BANK_TRANSFER", result.getMethod());
-        assertEquals("SUCCESS", result.getStatus());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), result.getStatus());
         verify(paymentRepository, times(1)).save(any(Payment.class));
     }
 
     @Test
     void testAddPaymentBankTransferRejectedEmptyBankName() {
         Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("bankName", "");
-        paymentData.put("referenceCode", "REF001");
+        paymentData.put("Mandiri", "");
+        paymentData.put("Bank Syariah Indonesia", "BSI");
 
         Payment result = paymentService.addPayment(order, "BANK_TRANSFER", paymentData);
 
-        assertEquals("REJECTED", result.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
         verify(paymentRepository, times(1)).save(any(Payment.class));
     }
 
     @Test
     void testAddPaymentBankTransferRejectedEmptyReferenceCode() {
         Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("bankName", "BCA");
-        paymentData.put("referenceCode", "");
+        paymentData.put("Bank Central Asia", "BCA");
+        paymentData.put("Mandiri", "");
 
         Payment result = paymentService.addPayment(order, "BANK_TRANSFER", paymentData);
 
-        assertEquals("REJECTED", result.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
         verify(paymentRepository, times(1)).save(any(Payment.class));
     }
 
     @Test
     void testAddPaymentBankTransferRejectedNullBankName() {
         Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("bankName", null);
-        paymentData.put("referenceCode", "REF001");
+        paymentData.put("Mandiri", null);
+        paymentData.put("Bank Syariah Indonesia", "BSI");
 
         Payment result = paymentService.addPayment(order, "BANK_TRANSFER", paymentData);
 
-        assertEquals("REJECTED", result.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
     }
-
-
 }
