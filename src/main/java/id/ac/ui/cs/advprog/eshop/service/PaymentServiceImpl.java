@@ -47,10 +47,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment getPayment(String paymentId) {
+        return paymentRepository.findById(paymentId);
     }
 
     @Override
     public List<Payment> getAllPayments() {
+        return paymentRepository.findAll();
     }
 
     private String determineStatus(String method, Map<String, String> paymentData) {
