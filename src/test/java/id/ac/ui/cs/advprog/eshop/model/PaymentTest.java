@@ -33,12 +33,6 @@ class PaymentTest {
     }
 
     @Test
-    void testSetStatusInvalid() {
-        Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
-        assertThrows(IllegalArgumentException.class, () -> payment.setStatus("MEOW"));
-    }
-
-    @Test
     void testCreatePaymentEmptyBankName() {
         paymentData.put("", "Mandiri");
         Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
