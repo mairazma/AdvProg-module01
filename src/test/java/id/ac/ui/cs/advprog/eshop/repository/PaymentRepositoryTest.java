@@ -51,4 +51,31 @@ class PaymentRepositoryTest {
         Payment findResult = paymentRepository.findById(payment.getId());
         assertEquals(PaymentStatus.REJECTED.getValue(), findResult.getStatus());
     }
+
+    @Test
+    void testFindByIdFound() {
+        for (Payment p : payments) {
+            paymentRepository.save(p);
+        }
+        Payment result = paymentRepository.findById("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", result.getId());
+    }
+
+    @Test
+    void testFindByIdNotFound() {
+        for (Payment p : payments) {
+            paymentRepository.save(p);
+        }
+        assertNull(paymentRepository.findById("zczc"));
+    }
+
+    @Test
+    void testFindAll() {
+        for (Payment p : payments) {
+            paymentRepository.save(p);
+        }
+
+        List<Payment> result = paymentRepository.findAll();
+        assertEquals(2, result.size());
+    }
 }
