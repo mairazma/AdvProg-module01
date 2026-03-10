@@ -52,5 +52,31 @@ class PaymentTest {
         assertThrows(IllegalArgumentException.class, () -> payment.setStatus("MEOW"));
     }
 
+    @Test
+    void testCreatePaymentEmptyBankName() {
+        paymentData.put("", "Mandiri");
+        Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
+        assertEquals("REJECTED", payment.getStatus());
+    }
 
+    @Test
+    void testCreatePaymentNullBankName() {
+        paymentData.put(null, "Mandiri");
+        Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
+        assertEquals("REJECTED", payment.getStatus());
+    }
+
+    @Test
+    void testCreatePaymentEmptyReferenceCode() {
+        paymentData.put("Mandiri", "");
+        Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
+        assertEquals("REJECTED", payment.getStatus());
+    }
+
+    @Test
+    void testCreatePaymentNullReferenceCode() {
+        paymentData.put("Mandiri", null);
+        Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
+        assertEquals("REJECTED", payment.getStatus());
+    }
 }
