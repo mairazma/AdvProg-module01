@@ -32,5 +32,25 @@ class PaymentTest {
         assertEquals("SUCCESS", payment.getStatus());
     }
 
+    @Test
+    void testSetStatusToSuccess() {
+        Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
+        payment.setStatus("SUCCESS");
+        assertEquals("SUCCESS", payment.getStatus());
+    }
+
+    @Test
+    void testSetStatusToRejected() {
+        Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
+        payment.setStatus("REJECTED");
+        assertEquals("REJECTED", payment.getStatus());
+    }
+
+    @Test
+    void testSetStatusInvalid() {
+        Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
+        assertThrows(IllegalArgumentException.class, () -> payment.setStatus("MEOW"));
+    }
+
 
 }
