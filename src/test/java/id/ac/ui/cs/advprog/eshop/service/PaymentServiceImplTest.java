@@ -45,6 +45,18 @@ class PaymentServiceImplTest {
     }
 
     @Test
+    void testDetermineStatusRejected() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("bankName", "Bank Central Asia");
+        paymentData.put("referenceCode", "BCA");
+
+        Payment result = paymentService.addPayment(order, "CASH_ON_DELIVERY", paymentData);
+
+        assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
+        verify(paymentRepository, times(1)).save(any(Payment.class));
+    }
+
+    @Test
     void testAddPaymentBankTransferSuccess() {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("bankName", "Bank Central Asia");

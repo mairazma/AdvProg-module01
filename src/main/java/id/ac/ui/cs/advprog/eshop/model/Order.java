@@ -5,10 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Arrays;
 import java.util.List;
 
-@Builder
 @Getter
 public class Order {
     private String id;
