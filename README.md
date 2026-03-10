@@ -71,3 +71,16 @@ The mistake I found in my code is that there are almost no comments. Even if the
 
 3. Explain the disadvantages of not applying SOLID principles to your project with examples.   
     Without applying SOLID principles, the project would become tightly coupled and harder to maintain. For instance, if controllers directly depended on concrete service implementations or if multiple responsibilities were placed in a single class, small changes could require modifying many files and increase the risk of errors. This would reduce flexibility and make future development more difficult.
+
+---
+
+# Module 4
+
+## Reflection
+
+1. Reflect based on Percival (2017) proposed self-reflective questions (in “Principles and Best Practice of Testing” submodule, chapter “Evaluating Your Testing Objectives”), whether this TDD flow is useful enough for you or not. If not, explain things that you need to do next time you make more tests.   
+    I find this TDD flow useful because it makes me think about what the code should do before I start writing it. Writing tests first helps me focus on behavior, avoid unnecessary implementation details, and gives me confidence when I refactor later. Next time, I will also make sure to keep the tests simple and readable so they stay useful as the code evolves.
+
+
+2. You have created unit tests in Tutorial. Now reflect whether your tests have successfully followed F.I.R.S.T. principle or not. If not, explain things that you need to do the next time you create more tests.   
+    I think my tests mostly follow F.I.R.S.T. They run fast and are repeatable because they don’t depend on real external systems. Most tests are self-validating, they assert the expected results and fail clearly when something is wrong. However, some tests share setup code and use the same in-memory data, so they are not fully independent. Next time, I would isolate each test more (reset state between tests or use separate objects) to ensure independence and make them easier to debug.
