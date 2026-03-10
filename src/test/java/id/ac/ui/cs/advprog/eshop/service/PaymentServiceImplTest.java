@@ -43,5 +43,53 @@ class PaymentServiceImplTest {
                 products, 1708560000L, "Safira Sudrajat");
     }
 
+    @Test
+    void testAddPaymentBankTransferSuccess() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("bankName", "BCA");
+        paymentData.put("referenceCode", "REF001");
+
+        Payment result = paymentService.addPayment(order, "BANK_TRANSFER", paymentData);
+
+        assertEquals("BANK_TRANSFER", result.getMethod());
+        assertEquals("SUCCESS", result.getStatus());
+        verify(paymentRepository, times(1)).save(any(Payment.class));
+    }
+
+    @Test
+    void testAddPaymentBankTransferRejectedEmptyBankName() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("bankName", "");
+        paymentData.put("referenceCode", "REF001");
+
+        Payment result = paymentService.addPayment(order, "BANK_TRANSFER", paymentData);
+
+        assertEquals("REJECTED", result.getStatus());
+        verify(paymentRepository, times(1)).save(any(Payment.class));
+    }
+
+    @Test
+    void testAddPaymentBankTransferRejectedEmptyReferenceCode() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("bankName", "BCA");
+        paymentData.put("referenceCode", "");
+
+        Payment result = paymentService.addPayment(order, "BANK_TRANSFER", paymentData);
+
+        assertEquals("REJECTED", result.getStatus());
+        verify(paymentRepository, times(1)).save(any(Payment.class));
+    }
+
+    @Test
+    void testAddPaymentBankTransferRejectedNullBankName() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("bankName", null);
+        paymentData.put("referenceCode", "REF001");
+
+        Payment result = paymentService.addPayment(order, "BANK_TRANSFER", paymentData);
+
+        assertEquals("REJECTED", result.getStatus());
+    }
+
 
 }
