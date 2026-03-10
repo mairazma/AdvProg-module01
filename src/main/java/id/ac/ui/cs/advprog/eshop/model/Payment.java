@@ -18,5 +18,7 @@ public class Payment {
     }
 
     public Payment(String id, String method, String status, Map<String, String> paymentData) {
+        this(id, method, paymentData);
+        this.status = status;
     }
 }
