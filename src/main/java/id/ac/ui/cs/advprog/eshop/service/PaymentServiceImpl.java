@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
 import id.ac.ui.cs.advprog.eshop.repository.OrderRepository;
@@ -21,6 +22,10 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment addPayment(Order order, String method, Map<String, String> paymentData) {
+        String status = determineStatus(method, paymentData);
+        Payment payment = new Payment(UUID.randomUUID().toString(), method, status, paymentData);
+        paymentRepository.save(payment);
+        return payment;
     }
 
     @Override
@@ -36,5 +41,15 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     private String determineStatus(String method, Map<String, String> paymentData) {
+        if (method.equals("BANK_TRANSFER")) {
+            String bankName = paymentData.get("bankName");
+            String referenceCode = paymentData.get("referenceCode");
+            if (bankName == null || bankName.isEmpty() ||
+                    referenceCode == null || referenceCode.isEmpty()) {
+                return PaymentStatus.REJECTED.getValue();
+            }
+            return PaymentStatus.SUCCESS.getValue();
+        }
+        return PaymentStatus.REJECTED.getValue();
     }
 }
