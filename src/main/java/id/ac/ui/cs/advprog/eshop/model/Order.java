@@ -17,6 +17,8 @@ public class Order {
     private String author;
     private String status;
 
+    public Order() {
+    }
 
     public Order(String id, List<Product> products, Long orderTime, String author) {
         this.id = id;
