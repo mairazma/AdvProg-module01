@@ -11,6 +11,10 @@ public class Payment {
     private Map<String, String> paymentData;
 
     public Payment(String id, String method, Map<String, String> paymentData) {
+        this.id = id;
+        this.method = method;
+        this.paymentData = paymentData;
+        this.status = "WAITING_PAYMENT";
     }
 
     public Payment(String id, String method, String status, Map<String, String> paymentData) {
