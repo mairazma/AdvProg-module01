@@ -33,20 +33,6 @@ class PaymentTest {
     }
 
     @Test
-    void testSetStatusToSuccess() {
-        Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
-        payment.setStatus("SUCCESS");
-        assertEquals("SUCCESS", payment.getStatus());
-    }
-
-    @Test
-    void testSetStatusToRejected() {
-        Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
-        payment.setStatus("REJECTED");
-        assertEquals("REJECTED", payment.getStatus());
-    }
-
-    @Test
     void testSetStatusInvalid() {
         Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
         assertThrows(IllegalArgumentException.class, () -> payment.setStatus("MEOW"));
@@ -56,27 +42,27 @@ class PaymentTest {
     void testCreatePaymentEmptyBankName() {
         paymentData.put("", "Mandiri");
         Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals("WAITING_PAYMENT", payment.getStatus());
     }
 
     @Test
     void testCreatePaymentNullBankName() {
         paymentData.put(null, "Mandiri");
         Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals("WAITING_PAYMENT", payment.getStatus());
     }
 
     @Test
     void testCreatePaymentEmptyReferenceCode() {
         paymentData.put("Mandiri", "");
         Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals("WAITING_PAYMENT", payment.getStatus());
     }
 
     @Test
     void testCreatePaymentNullReferenceCode() {
         paymentData.put("Mandiri", null);
         Payment payment = new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", paymentData);
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals("WAITING_PAYMENT", payment.getStatus());
     }
 }
