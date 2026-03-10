@@ -47,8 +47,8 @@ class PaymentServiceImplTest {
     @Test
     void testAddPaymentBankTransferSuccess() {
         Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("Bank Central Asia", "BCA");
-        paymentData.put("Bank Nasional Indonesia", "BNI");
+        paymentData.put("bankName", "Bank Central Asia");
+        paymentData.put("referenceCode", "BCA");
 
         Payment result = paymentService.addPayment(order, "BANK_TRANSFER", paymentData);
 
@@ -60,8 +60,8 @@ class PaymentServiceImplTest {
     @Test
     void testAddPaymentBankTransferRejectedEmptyBankName() {
         Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("Mandiri", "");
-        paymentData.put("Bank Syariah Indonesia", "BSI");
+        paymentData.put("bankName", "");
+        paymentData.put("referenceCode", "REF001");
 
         Payment result = paymentService.addPayment(order, "BANK_TRANSFER", paymentData);
 
@@ -72,8 +72,8 @@ class PaymentServiceImplTest {
     @Test
     void testAddPaymentBankTransferRejectedEmptyReferenceCode() {
         Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("Bank Central Asia", "BCA");
-        paymentData.put("Mandiri", "");
+        paymentData.put("bankName", "BCA");
+        paymentData.put("referenceCode", "");
 
         Payment result = paymentService.addPayment(order, "BANK_TRANSFER", paymentData);
 
@@ -84,8 +84,8 @@ class PaymentServiceImplTest {
     @Test
     void testAddPaymentBankTransferRejectedNullBankName() {
         Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("Mandiri", null);
-        paymentData.put("Bank Syariah Indonesia", "BSI");
+        paymentData.put("bankName", null);
+        paymentData.put("referenceCode", "REF001");
 
         Payment result = paymentService.addPayment(order, "BANK_TRANSFER", paymentData);
 
@@ -95,10 +95,12 @@ class PaymentServiceImplTest {
     @Test
     void testSetStatusSuccess() {
         Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("Bank Central Asia", "BCA");
-        paymentData.put("Bank Nasional Indonesia", "BNI");
-        Payment payment = new Payment("eb558e9f-1c39-469e-8860-71af6af63bd6", "BANK_TRANSFER", PaymentStatus.WAITING_PAYMENT.getValue(), paymentData);
+        paymentData.put("bankName", "BCA");
+        paymentData.put("referenceCode", "REF001");
+        Payment payment = new Payment("eb558e9f-1c39-469e-8860-71af6af63bd6",
+                order.getId(), "BANK_TRANSFER", PaymentStatus.WAITING_PAYMENT.getValue(), paymentData);
 
+        doReturn(order).when(orderRepository).findById(order.getId());
         doReturn(payment).when(paymentRepository).save(any(Payment.class));
 
         Payment result = paymentService.setStatus(payment, PaymentStatus.SUCCESS.getValue());
@@ -110,10 +112,12 @@ class PaymentServiceImplTest {
     @Test
     void testSetStatusRejected() {
         Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("Bank Central Asia", "BCA");
-        paymentData.put("Bank Nasional Indonesia", "BNI");
-        Payment payment = new Payment("eb558e9f-1c39-469e-8860-71af6af63bd6", "BANK_TRANSFER", "WAITING_PAYMENT", paymentData);
+        paymentData.put("bankName", "BCA");
+        paymentData.put("referenceCode", "REF001");
+        Payment payment = new Payment("eb558e9f-1c39-469e-8860-71af6af63bd6",
+                order.getId(), "BANK_TRANSFER", PaymentStatus.WAITING_PAYMENT.getValue(), paymentData);
 
+        doReturn(order).when(orderRepository).findById(order.getId());
         doReturn(payment).when(paymentRepository).save(any(Payment.class));
 
         Payment result = paymentService.setStatus(payment, PaymentStatus.REJECTED.getValue());
@@ -125,9 +129,10 @@ class PaymentServiceImplTest {
     @Test
     void testGetPayment() {
         Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("Bank Central Asia", "BCA");
-        paymentData.put("Bank Nasional Indonesia", "BNI");
-        Payment payment = new Payment("eb558e9f-1c39-469e-8860-71af6af63bd6", "BANK_TRANSFER", "SUCCESS", paymentData);
+        paymentData.put("bankName", "BCA");
+        paymentData.put("referenceCode", "REF001");
+        Payment payment = new Payment("eb558e9f-1c39-469e-8860-71af6af63bd6",
+                order.getId(), "BANK_TRANSFER", "SUCCESS", paymentData);
 
         doReturn(payment).when(paymentRepository).findById("eb558e9f-1c39-469e-8860-71af6af63bd6");
 

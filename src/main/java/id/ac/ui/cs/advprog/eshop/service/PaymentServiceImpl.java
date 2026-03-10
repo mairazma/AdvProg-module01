@@ -24,7 +24,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Payment addPayment(Order order, String method, Map<String, String> paymentData) {
         String status = determineStatus(method, paymentData);
-        Payment payment = new Payment(UUID.randomUUID().toString(), method, status, paymentData);
+        Payment payment = new Payment(UUID.randomUUID().toString(), order.getId(), method, status, paymentData);
         paymentRepository.save(payment);
         return payment;
     }
