@@ -122,4 +122,26 @@ class PaymentServiceImplTest {
         verify(orderRepository, times(1)).save(any(Order.class));
     }
 
+    @Test
+    void testGetPayment() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("Bank Central Asia", "BCA");
+        paymentData.put("Bank Nasional Indonesia", "BNI");
+        Payment payment = new Payment("eb558e9f-1c39-469e-8860-71af6af63bd6", "BANK_TRANSFER", "SUCCESS", paymentData);
+
+        doReturn(payment).when(paymentRepository).findById("eb558e9f-1c39-469e-8860-71af6af63bd6");
+
+        Payment result = paymentService.getPayment("eb558e9f-1c39-469e-8860-71af6af63bd6");
+        assertEquals("eb558e9f-1c39-469e-8860-71af6af63bd6", result.getId());
+    }
+
+    @Test
+    void testGetAllPayments() {
+        List<Payment> mockList = new ArrayList<>();
+        doReturn(mockList).when(paymentRepository).findAll();
+
+        List<Payment> result = paymentService.getAllPayments();
+        assertEquals(0, result.size());
+    }
+
 }
