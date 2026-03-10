@@ -27,4 +27,28 @@ class PaymentRepositoryTest {
         payments.add(new Payment("eb558e9f-1c39-460e-8860-71af6af63bd6", "BANK_TRANSFER", PaymentStatus.SUCCESS.getValue(), bankTransferData1));
         payments.add(new Payment("7f9e15bb-4b15-42f4-aebc-c3af385fb078", "BANK_TRANSFER", PaymentStatus.REJECTED.getValue(), bankTransferData2));
     }
+
+    @Test
+    void testSaveCreate() {
+        Payment payment = payments.get(0);
+        Payment result = paymentRepository.save(payment);
+
+        Payment findResult = paymentRepository.findById(payment.getId());
+        assertEquals(payment.getId(), result.getId());
+        assertEquals(payment.getId(), findResult.getId());
+        assertEquals(payment.getStatus(), findResult.getStatus());
+    }
+
+    @Test
+    void testSaveUpdate() {
+        Payment payment = payments.get(0);
+        paymentRepository.save(payment);
+
+        Payment updated = new Payment(payment.getId(), payment.getMethod(),
+                PaymentStatus.REJECTED.getValue(), payment.getPaymentData());
+        paymentRepository.save(updated);
+
+        Payment findResult = paymentRepository.findById(payment.getId());
+        assertEquals(PaymentStatus.REJECTED.getValue(), findResult.getStatus());
+    }
 }
